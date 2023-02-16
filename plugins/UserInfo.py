@@ -6,6 +6,7 @@ def load():
     logger.info("UserInfo is loaded.")
 
 async def userinfo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.debug(str(update.to_dict()))
     if update.message.reply_to_message == None:
         userinfo = update.effective_user
     else:

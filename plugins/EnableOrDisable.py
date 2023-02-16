@@ -11,6 +11,7 @@ def load():
     logger.info("EnableOrDisable is loaded.")
 
 async def enable(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.debug(str(update.to_dict()))
     if update.effective_chat.type == "group" or update.effective_chat.type == "supergroup":
         user = await update.effective_chat.get_member(update.effective_user.id)
         if user.status == "administrator" or user.status == "creator":
@@ -49,6 +50,7 @@ async def enable(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
 
 async def disable(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.debug(str(update.to_dict()))
     if update.effective_chat.type == "group" or update.effective_chat.type == "supergroup":
         user = await update.effective_chat.get_member(update.effective_user.id)
         if user.status == "administrator" or user.status == "creator":
