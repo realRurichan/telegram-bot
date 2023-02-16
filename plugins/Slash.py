@@ -9,6 +9,9 @@ from typing import Optional, Union, Any, Callable
 from telegram import Update, Message, Bot
 from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters, CallbackContext
 
+'''
+Codes from https://github.com/Rongronggg9/SlashBot
+'''
 
 
 def load():
