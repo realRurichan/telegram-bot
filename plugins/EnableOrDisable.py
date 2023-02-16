@@ -41,7 +41,7 @@ async def enable(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 else:
                     await update.message.reply_text("这不是可以禁用/启用的功能哦～请检查一下quq")
             except (IndexError):
-                await update.message.reply_text("用法：\n请在指令后面加上想要禁用的功能\n如（括号内为解释）：\nwelcome（进群欢迎），cancelpin（取消频道自动置顶）")
+                await update.message.reply_text("用法：\n请在指令后面加上想要禁用的功能\n如（括号内为解释）：\nwelcome（进群欢迎）")
         else:
             update.message.reply_text("只有群组管理员可以使用此功能哦")
     else:
