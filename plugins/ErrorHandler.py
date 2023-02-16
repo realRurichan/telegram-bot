@@ -24,14 +24,22 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
     # Build the message with some markup and additional information about what happened.
     # You might need to add some logic to deal with messages longer than the 4096 character limit.
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
-    message = (
-        f"呜呜呜我发生了一个错误，琉璃妈妈快来看看：\n"
-        f"<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}"
-        "</pre>\n\n"
-        f"<pre>context.chat_data = {html.escape(str(update.effective_user.to_dict()))}</pre>\n\n"
-        f"<pre>context.user_data = {html.escape(str(update.effective_chat.to_dict()))}</pre>\n\n"
-        f"<pre>{html.escape(tb_string)}</pre>"
-    )
+    try:
+        message = (
+            f"呜呜呜我发生了一个错误，琉璃妈妈快来看看：\n"
+            f"<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}"
+            "</pre>\n\n"
+            f"<pre>context.chat_data = {html.escape(str(update.effective_user.to_dict()))}</pre>\n\n"
+            f"<pre>context.user_data = {html.escape(str(update.effective_chat.to_dict()))}</pre>\n\n"
+            f"<pre>{html.escape(tb_string)}</pre>"
+        )
+    except:
+        message = (
+            f"呜呜呜我发生了一个错误，琉璃妈妈快来看看：\n"
+            f"<pre>update = {html.escape(json.dumps(update_str, indent=2, ensure_ascii=False))}"
+            "</pre>\n\n"
+            f"<pre>{html.escape(tb_string)}</pre>"
+        )
 
     # Finally, send the message
     await context.bot.send_message(
