@@ -11,6 +11,7 @@ async def usage(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                     f'下面来介绍我的使用方式哦\n'
                                     f'首先，你可以使用 <code>/hello</code> 或者是 <code>/hi</code> 来和我打招呼，我会回复你w\n'
                                     f'当你首次在私聊中和我说话的时候，我也会向你打招呼的！\n'
+                                    f'当你难过的时候可以使用 <code>/hug</code> 指令，月兔会抱抱你的qwq'
                                     f'然后呢，你可以使用 <code>/getid</code> 和 <code>/userinfo</code> 来让我获取你的用户ID和用户信息w\n'
                                     f'还可以通过 <code>/enable</code> 和 <code>/disable</code> 可以启用和禁用月兔的一些功能哦\n'
                                     f'目前可以启用禁用的功能只有进群欢迎（welcome）呢QAQ，小兔子会加油学习的qwq\n'
