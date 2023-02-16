@@ -1,0 +1,4 @@
+/.env
+/database.db
+/rabbit-bot
+/plugins/__pycache__
