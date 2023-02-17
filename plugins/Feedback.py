@@ -18,8 +18,8 @@ def get_name(user):
 async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.debug(str(update.to_dict()))
     feedback_content = update.message.text[10: ]
-    name = get_name(update.effective_user)
-    link = "tg://user?id=" + str(update.effective_user.id)
+    name = get_name(update.message.from_user)
+    link = "tg://user?id=" + str(update.message.from_user.id)
     final_message = f'来自 <a href="{link}">{name}</a> 的反馈：\n' + feedback_content
     await context.bot.send_message(
         chat_id=FEEDBACK_CHAT_ID, text=final_message, parse_mode=ParseMode.HTML
