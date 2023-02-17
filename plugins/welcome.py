@@ -13,12 +13,12 @@ def load():
 
 async def welcomeset(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.debug(str(update.to_dict()))
-    if update.effective_chat.type == "group" or "supergroup":
+    if update.effective_chat.type == "group" or update.effective_chat.type == "supergroup":
         group_id = str(update.effective_chat.id)[4: ]
         res = cur.execute("select BOOL  from \"" + group_id + "\" where COMMAND = \"WELCOME\";")
         if int(res.fetchone()[0]) == 1:
             user = await update.effective_chat.get_member(update.effective_user.id)
-            if user.status == "administrator" or "creator":
+            if user.status == "administrator" or user.status == "creator":
                 res = cur.execute("SELECT COUNT(*) FROM WELCOME WHERE GROUP_ID = \"" + group_id + "\";")
                 if int(res.fetchone()[0]) == 0:
                     try:
