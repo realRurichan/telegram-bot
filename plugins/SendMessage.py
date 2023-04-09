@@ -40,6 +40,7 @@ async def sendmessage(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def cancel_sendmessage(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.debug(str(update.to_dict()))
     await update.message.reply_text('已取消w')
+    return ConversationHandler.END
 
 handlers = [ConversationHandler(entry_points=[CommandHandler("send", sendmessage_get_id)], 
             states={GETMESSAGE:[MessageHandler(~filters.Regex("^\/cancel$"), sendmessage)]},
