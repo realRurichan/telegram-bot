@@ -1,0 +1,16 @@
+from telegram import Update
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, ConversationHandler, MessageHandler, filters
+from telegram.constants import ParseMode
+from loguru import logger
+import linecache
+import random
+
+def load():
+    logger.info("Eatwhat is loaded.")
+    
+
+async def eatwhat(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    result = linecache.getline('datas/eats.lst', random.randint(1,133))
+    await update.message.reply_text("咕噜咕噜，让小兔子告诉你吃什么吧w：\n" + "今天吃" + result)
+
+handlers = [CommandHandler(['eatwhat'], eatwhat)]
