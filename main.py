@@ -20,7 +20,7 @@ def main():
         plugin.load()
         for handler in plugin.handlers:
                 application.add_handler(handler)
-    application.add_error_handler(plugin.error_handler)
+    application.add_error_handler(bot_plugins.ErrorHandler.error_handler)
     application.run_polling(allowed_updates=Update.ALL_TYPES)
     
 if __name__ == '__main__':
