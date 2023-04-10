@@ -64,12 +64,14 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"{city_name} 的天气为：\n"
                                         f"{weather_info['text']} {weather_info['temp']}°C\n"
                                         f"{weather_info['windDir']} {weather_info['windScale']} 级\n"
-                                        f"空气质量 {air_quality_info['category']} AQI {air_quality_info['aqi']}")
+                                        f"空气质量 {air_quality_info['category']} AQI {air_quality_info['aqi']}\n"
+                                        f"小兔子祝你一天好心情哦~")
         return
     except:
         await update.message.reply_text(f"{city_name} 的天气为：\n"
                                         f"{weather_info['text']} {weather_info['temp']}°C\n"
-                                        f"{weather_info['windDir']} {weather_info['windScale']} 级\n")
+                                        f"{weather_info['windDir']} {weather_info['windScale']} 级\n"
+                                        f"小兔子祝你一天好心情哦~")
         return
 
 handlers = [CommandHandler(['weather'], weather)]
