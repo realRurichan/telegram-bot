@@ -1,5 +1,5 @@
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import ApplicationBuilder, ContextTypes, InlineQueryHandler
+from telegram.ext import ContextTypes, InlineQueryHandler
 from loguru import logger
 import re
 
