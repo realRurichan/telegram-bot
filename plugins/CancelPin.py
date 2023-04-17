@@ -3,6 +3,7 @@ from telegram.ext import ContextTypes, MessageHandler, filters
 from loguru import logger
 import sqlite3
 import asyncio
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 con = sqlite3.connect("database.db")
 cur = con.cursor()
@@ -11,6 +12,8 @@ def load():
     logger.info("CancelPin is loaded.")
 
 async def cancelpin(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     group_id = str(update.effective_chat.id)[4: ]
     res = cur.execute("select BOOL  from \"" + group_id + "\" where COMMAND = \"CANCELPIN\";")

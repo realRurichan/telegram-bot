@@ -3,6 +3,7 @@ from telegram.ext import ContextTypes, CommandHandler, ChatMemberHandler
 from typing import Optional, Tuple
 import sqlite3
 from loguru import logger
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 con = sqlite3.connect("database.db")
 cur = con.cursor()
@@ -11,6 +12,8 @@ def load():
     logger.info("WelcomePlugin is loaded.")
 
 async def welcomeset(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     if update.effective_chat.type == "group" or update.effective_chat.type == "supergroup":
         group_id = str(update.effective_chat.id)[4: ]
@@ -83,6 +86,8 @@ def extract_status_change(chat_member_update: ChatMemberUpdated) -> Optional[Tup
 
 
 async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     group_id = str(update.effective_chat.id)[4: ]
     res = cur.execute("select count(*)  from sqlite_master where type='table' and name =" + "\"" + group_id + "\"" + ";")

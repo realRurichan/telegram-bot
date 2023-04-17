@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
 import sqlite3
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 con = sqlite3.connect("database.db")
 cur = con.cursor()
@@ -11,6 +12,8 @@ def load():
     logger.info("EnableOrDisable is loaded.")
 
 async def enable(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     if update.effective_chat.type == "group" or update.effective_chat.type == "supergroup":
         user = await update.effective_chat.get_member(update.effective_user.id)
@@ -50,6 +53,8 @@ async def enable(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
 
 async def disable(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     if update.effective_chat.type == "group" or update.effective_chat.type == "supergroup":
         user = await update.effective_chat.get_member(update.effective_user.id)

@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 def load():
     logger.info("FeedPlugin is loaded.")
@@ -13,6 +14,8 @@ def get_name(user):
         return user.first_name
 
 async def feed(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     get_me = await context.bot.get_me()
     bot_id = get_me.id

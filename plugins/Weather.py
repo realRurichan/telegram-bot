@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
 import requests
 import asyncio
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 load_dotenv()
 
@@ -30,6 +31,8 @@ def get_airquality(loc: str):
     return requests.get(f'https://devapi.qweather.com/v7/air/now?key={qweather_key}&lang=zh&location={loc}')
 
 async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     status_amap = False
     target_loc = update.message.text[9: ]

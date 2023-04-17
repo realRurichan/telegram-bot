@@ -5,6 +5,7 @@ from loguru import logger as _logger
 from typing import Optional, Union, Any, Callable
 from telegram import Update, Message
 from telegram.ext import MessageHandler, filters, CallbackContext
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 '''
 Codes from https://github.com/Rongronggg9/SlashBot
@@ -139,6 +140,8 @@ def get_text(user_from: User, user_rpl: User, command: dict):
     return ret
 
 async def reply(update: Update, ctx: CallbackContext):
+    if CheckTimedOut(update, ctx):
+        return
     username = await ctx.bot.get_me()
     username = username.username
     command = await parse_command(ctx)

@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler
 from telegram.constants import ParseMode
 from loguru import logger
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 def load():
     logger.info("Feedback is loaded.")
@@ -16,6 +17,8 @@ def get_name(user):
         return user.first_name
 
 async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     feedback_content = update.message.text[10: ]
     name = get_name(update.message.from_user)

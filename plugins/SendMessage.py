@@ -4,6 +4,7 @@ from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler, ConversationHandler, MessageHandler, filters
 from telegram.constants import ParseMode
 from loguru import logger
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 load_dotenv()
 
@@ -15,6 +16,8 @@ target_chat_id = 0
 GETMESSAGE = range(1)
 
 async def sendmessage_get_id(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     print(admin_id)
     print(update.effective_user.id)

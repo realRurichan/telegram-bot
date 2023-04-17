@@ -1,11 +1,14 @@
 from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 def load():
     logger.info("UsagePlugin is loaded.")
 
 async def usage(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     await update.message.reply_text(f'你好，我是月兔！是<a href="tg://user?id=1603449979">琉璃</a>家的一只小兔子\n'
                                     f'下面来介绍我的使用方式哦\n'
