@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
 import random
+from plugins.CheckMessageTimedOut import CheckTimedOut
 
 def load():
     logger.info("Hug is loaded.")
@@ -15,6 +16,8 @@ stickers_list = ['CAACAgEAAxkBAAIFVmPuvB325FcvBMsVU5ViuDe9Bti3AAIuJwACePzGBWM311
                 'CAACAgEAAxkBAAIFWmPuvD0JWDFaj4zwrSqI7D_oUrz6AAKhKAACePzGBUqlR20jxOiyLgQ']
 
 async def hug(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if CheckTimedOut(update, context):
+        return
     logger.debug(str(update.to_dict()))
     reply_sentence = sentences_list[random.randint(0,3)]
     reply_sticker = stickers_list[random.randint(0,1)]
