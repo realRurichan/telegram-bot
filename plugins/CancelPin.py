@@ -1,5 +1,5 @@
-from telegram import Update, Bot
-from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters, CallbackContext
+from telegram import Update
+from telegram.ext import  ContextTypes, MessageHandler, filters
 from loguru import logger
 import sqlite3
 import asyncio

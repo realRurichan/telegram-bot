@@ -1,13 +1,10 @@
-import os
-import sys
 import re
-import asyncio
 import requests
 from functools import partial
 from loguru import logger as _logger
 from typing import Optional, Union, Any, Callable
-from telegram import Update, Message, Bot
-from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters, CallbackContext
+from telegram import Update, Message
+from telegram.ext import MessageHandler, filters, CallbackContext
 
 '''
 Codes from https://github.com/Rongronggg9/SlashBot

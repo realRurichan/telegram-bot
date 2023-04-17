@@ -1,7 +1,6 @@
-from telegram import Update, Chat, ChatMember, ChatMemberUpdated
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, ChatMemberHandler
+from telegram import Update, ChatMember, ChatMemberUpdated
+from telegram.ext import ContextTypes, CommandHandler, ChatMemberHandler
 from typing import Optional, Tuple
-import re
 import sqlite3
 from loguru import logger
 

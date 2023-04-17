@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+from telegram.ext import ContextTypes
 from telegram.constants import ParseMode
 from loguru import logger
 import traceback
