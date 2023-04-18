@@ -1,8 +1,7 @@
-from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
+from telegram import Update
 from telegram.ext import ContextTypes, InlineQueryHandler
 from loguru import logger
 import plugins.InlinePlugins as InlinePlugins
-import re
 
 def load():
     logger.info("InlineHandler is loaded")
