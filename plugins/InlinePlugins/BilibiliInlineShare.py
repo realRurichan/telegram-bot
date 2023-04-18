@@ -1,11 +1,8 @@
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import ContextTypes, InlineQueryHandler
+from telegram.ext import ContextTypes
 from telegram.constants import ParseMode
 from loguru import logger
 import re
-
-def load():
-    logger.info("BilibiliShare module is loaded")
 
 regex = r"(?i)(av\d+|BV[\dA-Za-z]{10})"
 def match(query: str):
@@ -36,6 +33,4 @@ async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.answer_inline_query(update.inline_query.id, results)
     else:
         await context.bot.answer_inline_query(update.inline_query.id, [])
-        
-# handlers = [InlineQueryHandler(bilibili_share, pattern=regex)]
 

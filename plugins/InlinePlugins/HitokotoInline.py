@@ -1,13 +1,9 @@
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
 from telegram.constants import ParseMode
-from telegram.ext import ContextTypes, InlineQueryHandler
+from telegram.ext import ContextTypes
 from loguru import logger
 import aiohttp
-from telegram.ext.filters import BaseFilter
 import re
-
-def load():
-    logger.info("HitokotoInline module is loaded")
 
 regex = r'^$'
 def match(query: str):
@@ -48,7 +44,3 @@ async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     ]
     await context.bot.answer_inline_query(update.inline_query.id, results, cache_time=0)
-    return True
-    
-
-#handlers = [InlineQueryHandler(hitokoto_inline)]

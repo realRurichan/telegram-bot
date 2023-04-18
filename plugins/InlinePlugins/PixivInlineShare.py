@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
 from telegram.constants import ParseMode
-from telegram.ext import ContextTypes, InlineQueryHandler
+from telegram.ext import ContextTypes
 from loguru import logger
 from pixivpy_async import PixivClient, AppPixivAPI
 import re
@@ -15,9 +15,6 @@ def match(query: str):
     if(result):
         logger.debug(f'Matched')
     return result
-
-def load():
-    logger.info("Pixiv Inline Share is loaded.")
 
 async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
@@ -62,5 +59,3 @@ async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     else:
         await context.bot.answer_inline_query(update.inline_query.id, [])
-
-# handlers = [InlineQueryHandler(pixiv_inline_share, pattern=regex)]

@@ -1,10 +1,7 @@
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import ContextTypes, InlineQueryHandler
+from telegram.ext import ContextTypes
 from loguru import logger
 import re
-
-def load():
-    logger.info("TwitterShare module is loaded")
 
 regex = r'(?:https?:\/\/)?(?:www\.)?twitter\.com\/(?:#!\/)?(\w+)\/status?\/(\w+)'
 def match(query: str):
@@ -33,5 +30,3 @@ async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.answer_inline_query(update.inline_query.id, results)
     else:
         await context.bot.answer_inline_query(update.inline_query.id, [])
-
-# handlers = [InlineQueryHandler(TwitterShare, pattern=regex)]
