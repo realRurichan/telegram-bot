@@ -79,7 +79,7 @@ async def systeminfo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     uptime = get_uptime()
 
     info = (
-        '<b>System Info</b>\n\n'
+        '<b>System Info</b>\n'
         'System:\n'
         f'system: <code>{os_info["system"]}</code>\n'
         f'release: <code>{os_info["release"]}</code>\n'
@@ -100,7 +100,7 @@ async def systeminfo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         'Uptime:\n'
         f'uptime: {uptime}'
     )
-    print(info)
+
     await update.message.reply_text(info, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 handlers = [CommandHandler("systeminfo", systeminfo)]
