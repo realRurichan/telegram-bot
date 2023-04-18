@@ -3,8 +3,6 @@ from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
-import requests
-import asyncio
 import aiohttp
 from plugins.CheckMessageTimedOut import CheckTimedOut
 
