@@ -5,6 +5,7 @@ from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
 import requests
 import asyncio
+import aiohttp
 from plugins.CheckMessageTimedOut import CheckTimedOut
 
 load_dotenv()
@@ -15,20 +16,10 @@ def load():
 qweather_key = os.getenv("QWEATHER_KEY")
 amap_key = os.getenv("AMAP_KEY")
 
-def get_geoapi(loc: str):
-    return requests.get(f'https://geoapi.qweather.com/v2/city/lookup?key={qweather_key}&lang=zh&location={loc}')
-
-def get_poiapi(loc: str):
-    return requests.get(f'https://geoapi.qweather.com/v2/poi/lookup?key={qweather_key}&type=scenic&lang=zh&location={loc}')
-
-def get_amap(loc: str):
-    return requests.get(f'https://restapi.amap.com/v3/geocode/geo?key={amap_key}&address={loc}')
-
-def get_weather(loc: str):
-    return requests.get(f'https://devapi.qweather.com/v7/grid-weather/now?key={qweather_key}&lang=zh&location={loc}')
-
-def get_airquality(loc: str):
-    return requests.get(f'https://devapi.qweather.com/v7/air/now?key={qweather_key}&lang=zh&location={loc}')
+async def fetch(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return await response.json()
 
 async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if CheckTimedOut(update, context):
@@ -39,14 +30,14 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if target_loc == '':
         await update.message.reply_text("请在后面接上想要查询的城市w")
         return
-    geoapi = await asyncio.to_thread(get_geoapi, target_loc)
+    geoapi = await fetch(f'https://geoapi.qweather.com/v2/city/lookup?key={qweather_key}&lang=zh&location={target_loc}')
     geoapi_result = geoapi.json()
     if (geoapi_result['code'] != '200'):
-        poiapi = await asyncio.to_thread(get_poiapi, target_loc)
+        poiapi = await fetch(f'https://geoapi.qweather.com/v2/poi/lookup?key={qweather_key}&type=scenic&lang=zh&location={target_loc}')
         poiapi_result = poiapi.json()
         if (poiapi_result['code'] != '200'):
             status_amap = True
-            amap_api = await asyncio.to_thread(get_amap, target_loc)
+            amap_api = await fetch(f'https://restapi.amap.com/v3/geocode/geo?key={amap_key}&address={target_loc}')
             amap_api_result = amap_api.json()
             if(amap_api_result['status'] == "0"):
                 await update.message.reply_text("小兔子查询不到你想要查询的城市哦，请检查后再试试qwq")
@@ -69,12 +60,12 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         lon_lat = location_amap['location']
         city_name = location_amap['formatted_address']
-    weather_api = await asyncio.to_thread(get_weather, lon_lat)
+    weather_api = await fetch(f'https://devapi.qweather.com/v7/grid-weather/now?key={qweather_key}&lang=zh&location={lon_lat}')
     weather_api_result = weather_api.json()
     logger.debug(f"Weather Info: {weather_api_result}")
     weather_info = weather_api_result["now"]
     try:
-        air_quality_api = await asyncio.to_thread(get_airquality, lon_lat)
+        air_quality_api = await fetch(f'https://devapi.qweather.com/v7/air/now?key={qweather_key}&lang=zh&location={lon_lat}')
         air_quality_api_result = air_quality_api.json()
         air_quality_info = air_quality_api_result["now"]
         await update.message.reply_text(f"{city_name} 的天气为：\n"
