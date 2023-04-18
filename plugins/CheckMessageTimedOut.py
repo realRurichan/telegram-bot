@@ -3,8 +3,10 @@ from datetime import datetime, timezone
 from telegram import Update
 from telegram.ext import ContextTypes
 
+
 def load():
     logger.info("CheckMessageTimedOut module is loaded")
+
 
 def CheckTimedOut(update: Update, context: ContextTypes.DEFAULT_TYPE):
     current_time = datetime.now(timezone.utc)
@@ -21,5 +23,6 @@ def CheckTimedOut(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # 如果消息未被忽略，将其传递给其他处理器
     return False
+
 
 handlers = []

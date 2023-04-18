@@ -3,8 +3,10 @@ from telegram.ext import ContextTypes, CommandHandler
 from loguru import logger
 from plugins.CheckMessageTimedOut import CheckTimedOut
 
+
 def load():
     logger.info("UserInfo is loaded.")
+
 
 async def userinfo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if CheckTimedOut(update, context):
@@ -14,7 +16,10 @@ async def userinfo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         userinfo = update.effective_user
     else:
         userinfo = update.message.reply_to_message.from_user
-    
-    await update.message.reply_text("<code>" + str(userinfo.to_dict()) + "</code>", parse_mode="HTML")
+
+    await update.message.reply_text(
+        "<code>" + str(userinfo.to_dict()) + "</code>", parse_mode="HTML"
+    )
+
 
 handlers = [CommandHandler("userinfo", userinfo)]
