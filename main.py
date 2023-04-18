@@ -4,8 +4,11 @@ from telegram import Update, Bot
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Updater
 import plugins as bot_plugins
 import os
+import time
 
 load_dotenv()
+
+start_time = time.time()
 
 '''
 logging.basicConfig(
