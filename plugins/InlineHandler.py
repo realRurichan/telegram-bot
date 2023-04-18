@@ -14,7 +14,4 @@ async def InlineHandler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if plugin.match(query):
             await plugin.main(update, context)
 
-
-
-
 handlers = [InlineQueryHandler(InlineHandler)]
