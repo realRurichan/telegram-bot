@@ -9,18 +9,22 @@ import re
 
 load_dotenv()
 
-PIXIV_URL_REGEX = r'https?://(?:www\.)?pixiv\.net/(?:\w+/)?artworks/(\d+)'
+regex = r'https?://(?:www\.)?pixiv\.net/(?:\w+/)?artworks/(\d+)'
+def match(query= str):
+    result = re.match(regex, query)
+    if(result):
+        logger.debug(f'Matched')
+    return result
 
 def load():
     logger.info("Pixiv Inline Share is loaded.")
 
-async def pixiv_inline_share(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
-    match = re.search(PIXIV_URL_REGEX, query)
+    match = re.search(regex, query)
 
     if match:
         illustration_id = int(match.group(1))
-        print(illustration_id)
         pixiv_refreshtoken = os.getenv("PIXIV_REFRESHTOKEN")
         async with PixivClient() as client:
             api = AppPixivAPI(client=client)
@@ -59,4 +63,4 @@ async def pixiv_inline_share(update: Update, context: ContextTypes.DEFAULT_TYPE)
     else:
         await context.bot.answer_inline_query(update.inline_query.id, [])
 
-handlers = [InlineQueryHandler(pixiv_inline_share, pattern=PIXIV_URL_REGEX)]
+# handlers = [InlineQueryHandler(pixiv_inline_share, pattern=regex)]

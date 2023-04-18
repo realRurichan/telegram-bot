@@ -6,7 +6,14 @@ import re
 def load():
     logger.info("TwitterShare module is loaded")
 
-async def TwitterShare(update: Update, context: ContextTypes.DEFAULT_TYPE):
+regex = r'(?:https?:\/\/)?(?:www\.)?twitter\.com\/(?:#!\/)?(\w+)\/status?\/(\w+)'
+def match(query= str):
+    result = re.match(regex, query)
+    if(result):
+        logger.debug(f'Matched')
+    return result
+
+async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
     logger.debug(f"Matched: {query}")
     pattern = r'/(?:www\.|mobile\.)?twitter\.com/([^/]+/status/\d{19})'
@@ -27,4 +34,4 @@ async def TwitterShare(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await context.bot.answer_inline_query(update.inline_query.id, [])
 
-handlers = [InlineQueryHandler(TwitterShare, pattern=r'(?:https?:\/\/)?(?:www\.)?twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\w+)')]
+# handlers = [InlineQueryHandler(TwitterShare, pattern=regex)]

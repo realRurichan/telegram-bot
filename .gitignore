@@ -2,3 +2,4 @@
 /database.db
 /rabbit-bot
 /plugins/__pycache__
+/plugins/InlinePlugins/__pycache__

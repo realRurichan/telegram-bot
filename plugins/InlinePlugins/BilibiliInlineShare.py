@@ -7,10 +7,16 @@ import re
 def load():
     logger.info("BilibiliShare module is loaded")
 
-async def bilibili_share(update: Update, context: ContextTypes.DEFAULT_TYPE):
+regex = r"(?i)(av\d+|BV[\dA-Za-z]{10})"
+def match(query= str):
+    result = re.match(regex, query)
+    if(result):
+        logger.debug(f'Matched')
+    return result
+
+async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
-    pattern = r"(?i)(av\d+|BV[\dA-Za-z]{10})"
-    match = re.match(pattern, query)
+    match = re.match(regex, query)
 
     if match:
         video_id = match.group(1)
@@ -31,5 +37,5 @@ async def bilibili_share(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await context.bot.answer_inline_query(update.inline_query.id, [])
         
-handlers = [InlineQueryHandler(bilibili_share, pattern=r"(?i)(av\d+|BV[\dA-Za-z]{10})")]
+# handlers = [InlineQueryHandler(bilibili_share, pattern=regex)]
 
