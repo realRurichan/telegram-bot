@@ -10,7 +10,7 @@ def load():
     logger.info("HitokotoInline module is loaded")
 
 regex = r'^$'
-def match(query= str):
+def match(query: str):
     result = re.match(regex, query)
     if(result):
         logger.debug(f'Matched')

@@ -7,7 +7,7 @@ def load():
     logger.info("TwitterShare module is loaded")
 
 regex = r'(?:https?:\/\/)?(?:www\.)?twitter\.com\/(?:#!\/)?(\w+)\/status?\/(\w+)'
-def match(query= str):
+def match(query: str):
     result = re.match(regex, query)
     if(result):
         logger.debug(f'Matched')

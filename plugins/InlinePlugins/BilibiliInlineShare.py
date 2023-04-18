@@ -8,7 +8,7 @@ def load():
     logger.info("BilibiliShare module is loaded")
 
 regex = r"(?i)(av\d+|BV[\dA-Za-z]{10})"
-def match(query= str):
+def match(query: str):
     result = re.match(regex, query)
     if(result):
         logger.debug(f'Matched')

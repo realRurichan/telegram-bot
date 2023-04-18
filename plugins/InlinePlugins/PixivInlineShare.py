@@ -10,7 +10,7 @@ import re
 load_dotenv()
 
 regex = r'https?://(?:www\.)?pixiv\.net/(?:\w+/)?artworks/(\d+)'
-def match(query= str):
+def match(query: str):
     result = re.match(regex, query)
     if(result):
         logger.debug(f'Matched')
