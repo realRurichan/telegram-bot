@@ -5,8 +5,12 @@ from loguru import logger
 import traceback
 import html
 import json
+import os
+from dotenv import load_dotenv
 
-DEVELOPER_CHAT_ID = -1001645682861
+load_dotenv()
+
+DEVELOPER_CHAT_ID = os.getenv("ERROR_REPORT_CHATID")
 
 
 def load():
