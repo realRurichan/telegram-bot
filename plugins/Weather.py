@@ -20,7 +20,7 @@ amap_key = os.getenv("AMAP_KEY")
 async def fetch(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            return response
+            return response.json()
 
 
 async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -35,33 +35,30 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
     geoapi = await fetch(
         f"https://geoapi.qweather.com/v2/city/lookup?key={qweather_key}&lang=zh&location={target_loc}"
     )
-    geoapi_result = geoapi.json()
-    if geoapi_result["code"] != "200":
+    if geoapi["code"] != "200":
         poiapi = await fetch(
             f"https://geoapi.qweather.com/v2/poi/lookup?key={qweather_key}&type=scenic&lang=zh&location={target_loc}"
         )
-        poiapi_result = poiapi.json()
-        if poiapi_result["code"] != "200":
+        if poiapi["code"] != "200":
             status_amap = True
             amap_api = await fetch(
                 f"https://restapi.amap.com/v3/geocode/geo?key={amap_key}&address={target_loc}"
             )
-            amap_api_result = amap_api.json()
-            if amap_api_result["status"] == "0":
+            if amap_api["status"] == "0":
                 await update.message.reply_text("小兔子查询不到你想要查询的城市哦，请检查后再试试qwq")
                 return
             else:
-                location_amap = amap_api_result["geocodes"][0]
+                location_amap = amap_api["geocodes"][0]
 
     if status_amap == False:
         try:
-            location = geoapi_result["location"][0]
+            location = geoapi["location"][0]
         except:
-            location = poiapi_result["poi"][0]
+            location = poiapi["poi"][0]
         lon = location["lon"]
         lat = location["lat"]
         lon_lat = f"{location['lon']},{location['lat']}"
-        if (location["name"] != location["adm2"]) and geoapi_result["code"] == "200":
+        if (location["name"] != location["adm2"]) and geoapi["code"] == "200":
             city_name = location["adm2"] + location["name"]
         else:
             city_name = location["name"]
@@ -71,15 +68,13 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
     weather_api = await fetch(
         f"https://devapi.qweather.com/v7/grid-weather/now?key={qweather_key}&lang=zh&location={lon_lat}"
     )
-    weather_api_result = weather_api.json()
-    logger.debug(f"Weather Info: {weather_api_result}")
-    weather_info = weather_api_result["now"]
+    logger.debug(f"Weather Info: {weather_api}")
+    weather_info = weather_api["now"]
     try:
         air_quality_api = await fetch(
             f"https://devapi.qweather.com/v7/air/now?key={qweather_key}&lang=zh&location={lon_lat}"
         )
-        air_quality_api_result = air_quality_api.json()
-        air_quality_info = air_quality_api_result["now"]
+        air_quality_info = air_quality_api["now"]
         await update.message.reply_text(
             f"{city_name} 的天气为：\n"
             f"{weather_info['text']} {weather_info['temp']}°C\n"
