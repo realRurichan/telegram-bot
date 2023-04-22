@@ -20,7 +20,7 @@ amap_key = os.getenv("AMAP_KEY")
 async def fetch(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
-            return response.json()
+            return await response.json()
 
 
 async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
