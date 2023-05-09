@@ -107,8 +107,6 @@ def extract_status_change(
 
 
 async def welcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if CheckTimedOut(update, context):
-        return
     logger.debug(str(update.to_dict()))
     group_id = str(update.effective_chat.id)[4:]
     res = cur.execute(
