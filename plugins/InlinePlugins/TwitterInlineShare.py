@@ -3,7 +3,9 @@ from telegram.ext import ContextTypes
 from loguru import logger
 import re
 
-regex = r"(?:https?:\/\/)?(?:www\.)?twitter\.com\/(?:#!\/)?(\w+)\/status?\/(\w+)"
+regex = (
+    r"(?:https?:\/\/)?(?:www\.)?(?:twitter\.com|x\.com)\/(?:#!\/)?(\w+)\/status?\/(\w+)"
+)
 
 
 def match(query: str):
@@ -16,7 +18,7 @@ def match(query: str):
 async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
     logger.debug(f"Matched: {query}")
-    pattern = r"/(?:www\.|mobile\.)?twitter\.com/([^/]+/status/\d{19})"
+    pattern = r"/(?:www\.|mobile\.)?(?:twitter\.com|x\.com)/([^/]+/status/\d{19})"
     match = re.search(pattern, query)
     if match:
         tweet_id = match.group(1)
