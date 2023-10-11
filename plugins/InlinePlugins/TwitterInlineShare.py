@@ -18,7 +18,7 @@ def match(query: str):
 async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query
     logger.debug(f"Matched: {query}")
-    pattern = r"/(?:www\.|mobile\.)?(?:twitter\.com|x\.com)/([^/]+/status/\d{19})"
+    pattern = r"/(?:www\.|mobile\.)?(?:twitter\.com|x\.com)/([^/]+/status/\d+)"
     match = re.search(pattern, query)
     if match:
         tweet_id = match.group(1)
